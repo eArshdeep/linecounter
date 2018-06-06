@@ -1,0 +1,7 @@
+{
+	"ignoreFolders": [
+		"node_modules",
+		".git"
+	],
+	"ignoreExtensions": []
+}

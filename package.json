@@ -1,0 +1,24 @@
+{
+  "name": "cli-line-counter",
+  "version": "1.0.5",
+  "description": "CLI utility for counting number of lines in source code",
+  "main": "cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arshdeep Padda",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "comma-number": "^2.0.0",
+    "isbinaryfile": "^3.0.2"
+  },
+  "bin": {
+    "countlines": "cli.js"
+  },
+  "preferGlobal": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eArshdeep/linecounter.git"
+  }
+}
