@@ -4,6 +4,8 @@
  * exports arguments vector from yargs parser.
 */
 
+const config_module = require('./config');
+
 const argv = require('yargs')
 
     .usage('Usage: countlines [command] [path] [options...]')
@@ -18,7 +20,7 @@ const argv = require('yargs')
     })
 
     .command('reset-config', 'Reset application configuration to factory default values.', () => {
-        console.log('You will soon be able to reset the settings file, just not yet.');
+        config_module.reset_config();
         process.exit();
     })
 
