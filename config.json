@@ -1,7 +1,8 @@
 {
-	"ignoreFolders": [
+	"showLog": false,
+	"ignoreExts": [],
+	"ignoreFiles": [
 		"node_modules",
 		".git"
-	],
-	"ignoreExtensions": []
+	]
 }
