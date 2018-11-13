@@ -89,21 +89,25 @@ class LineCounter {
 	}
 
 	/**
-	 * report() outputs program findings to user.
-	 * This includes final count of lines or optionally a more detailed log.
+	 * Outputs program findings to user.
+	 * 
+	 * Includes the final line count and root path scanned,
+	 * and optionally a detailed log of files scanned and their line count.
 	*/
 	report() {
-		console.log(chalk.blue("Finished Running Source Code Line Counter"));
-		console.log(chalk.blue("Scanning Path:"), this.cwd)
-		if(this.showLog) {
-			console.log(chalk.blue("\n -- Results --"));
-			for (let item in this.log) {
-				console.log(chalk.magenta(item), '-->', chalk.red(this.log[item], 'lines'));
+		console.log("Finished Running Source Code Line Counter");
+		console.log(`Scanning Path: ${chalk.yellow(this.cwd)}`);
+		if (this.showLog)
+		{
+			console.log(chalk.yellow("\n-- Results --"));
+			for (let item in this.log)
+			{
+				console.log(`${item} ${chalk.yellow("-->")} ${this.log[item]} items`);
 			}
-			console.log('\n')
+			console.log('\n');
 		}
-		console.log(chalk.blue("Total number of lines in source code:"), chalk.red(commaNumber(this.lineCount)))
-		console.log(chalk.blue("Have a good day :)"))
+		console.log(`Total number of lines in source code: ${chalk.yellow(commaNumber(this.lineCount))}`);
+		console.log("Have a good day :)");
 	}
 
 	traverse(path) {
