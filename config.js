@@ -44,8 +44,11 @@ function modify_config(argv) {
         process.exit();
     }
 
+    let showHelp = true;
+
     // handle show-log
     if (typeof argv["show-log"] != "undefined") {
+        showHelp = false;
         if (argv["show-log"] == true)
         {
             config["showLog"] = argv["show-log"];
@@ -64,33 +67,46 @@ function modify_config(argv) {
 
     // add-file-exclusions
     if (typeof argv["add-file-exclusions"] != "undefined") {
+        showHelp = false;
         config["ignoreFiles"] = config["ignoreFiles"].concat(argv["add-file-exclusions"]);
         console.log(`Added" ${chalk.green(JSON.stringify(argv["add-file-exclusions"]))} to file and folder exclusions.`);
     }
 
     // add-extension-exclusions
     if (typeof argv["add-extension-exclusions"] != "undefined") {
+        showHelp = false;
         config["ignoreExts"] = config["ignoreExts"].concat(argv["add-extension-exclusions"]);
         console.log(`Added" ${chalk.green(JSON.stringify(argv["add-extension-exclusions"]))} to extension exclusions.`);
     }
 
     // remove-file-exclusions
     if (typeof argv["remove-file-exclusions"] != "undefined") {
-        // return array.filter(item => !targetArray.includes(item));
+        showHelp = false;
         config["ignoreFiles"] = config["ignoreFiles"].filter(item => !argv["remove-file-exclusions"].includes(item));
         console.log(`Removed" ${chalk.green(JSON.stringify(argv["remove-file-exclusions"]))} from file and folder name exclusions.`);
     }
 
     // remove-extension-exclusions
     if (typeof argv["remove-extension-exclusions"] != "undefined") {
-        // return array.filter(item => !targetArray.includes(item));
+        showHelp = false;
         config["ignoreExts"] = config["ignoreExts"].filter(item => !argv["remove-extension-exclusions"].includes(item));
         console.log(`Removed" ${chalk.green(JSON.stringify(argv["remove-extension-exclusions"]))} from extensions exclusion.`);
     }
-
-    // save
-    let configPath = path.join(__dirname, "config.json");
-    fs.writeFileSync(configPath, JSON.stringify(config));
+    
+    if (showHelp)
+    {
+        // user ran empty command
+        console.log("Countlines Config Utility - modify application settings store\n");
+        console.log("Run", chalk.yellow("countlines config show <all|field>"), "to view the current settings store in its entirety or any one particular specified field.");
+        console.log("Run", chalk.yellow("countlines config --add-file-exclusions .js .php"), "to modify various aspects of the settings store.");
+        console.log("Run", chalk.yellow("countlines config --help"), "to view all possible options and more information.");
+    }
+    else
+    {
+        // save modifications
+        let configPath = path.join(__dirname, "config.json");
+        fs.writeFileSync(configPath, JSON.stringify(config));
+    }
 }
 
 function show_config(argv) {
