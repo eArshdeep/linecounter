@@ -97,7 +97,7 @@ function modify_config(argv) {
     {
         // user ran empty command
         console.log("Countlines Config Utility - modify application settings store\n");
-        console.log("Run", chalk.yellow("countlines config show <all|field>"), "to view the current settings store in its entirety or any one particular specified field.");
+        console.log("Run", chalk.yellow("countlines config show <all|fields...>"), "to view the current settings store in its entirety or any one particular specified field.");
         console.log("Run", chalk.yellow("countlines config --add-file-exclusions .js .php"), "to modify various aspects of the settings store.");
         console.log("Run", chalk.yellow("countlines config --help"), "to view all possible options and more information.");
     }
