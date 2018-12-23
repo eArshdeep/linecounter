@@ -1,6 +1,6 @@
 # CLI-LINE-COUNTER CHANGELOG
 
-## v1.0.6 (work in progress 11/09/2018)
+## v1.0.6 (released 12/23/2018)
 
 * Bump from version 1.0.5 to 1.0.6.
 * Added `usage.md` to explain best use cases.
