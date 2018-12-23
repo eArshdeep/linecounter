@@ -15,7 +15,7 @@ class LineCounter {
 		this.argv = argv;
 		this.prep();
 		if(this.mode == "directory")
-			this.traverse(this.cwd);	
+			this.traverse(this.cwd);
 		if(this.mode == "file")
 			this.read(this.cwd);
 		this.report();
@@ -25,7 +25,9 @@ class LineCounter {
 	 * Prep program for execution.
 	*/
 	prep() {
+		/** Log of all files successfully scanned [path:linecount] */
 		this.log = [];
+		/** Running total of lines scanned. */
 		this.lineCount = 0;
 		this.determineCWD();
 		this.determineLogOption();
@@ -70,6 +72,11 @@ class LineCounter {
 			if (error.code == "ENOTDIR") {
 				this.mode = "file";
 			}
+			/* Cannot access path given, thus cannot continue program execution */
+			if (error.code = "EACESS") {
+				console.log(chalk.red("[!] Error: Invalid access permissions"));
+				process.exit(1);
+			}
 		}
 		// set path
 		this.cwd = arg_path;
@@ -90,7 +97,7 @@ class LineCounter {
 
 	/**
 	 * Outputs program findings to user.
-	 * 
+	 *
 	 * Includes the final line count and root path scanned,
 	 * and optionally a detailed log of files scanned and their line count.
 	*/
@@ -106,19 +113,37 @@ class LineCounter {
 			}
 			console.log('\n');
 		}
-		console.log(`Total number of lines in source code: ${chalk.yellow(commaNumber(this.lineCount))}`);
+		let fileCount = Object.keys(this.log).length;
+		let fileGrammar = (Object.keys(this.log).length == 1) ? "file" : "files";
+		console.log(`Total number of lines in source code: ${chalk.yellow(commaNumber(this.lineCount))} (in ${fileCount} ${fileGrammar})`);
 		console.log("Have a good day :)");
 	}
 
 	traverse(path) {
-		var nodes = fs.readdirSync(path);
+		let nodes;
+		try {
+			nodes = fs.readdirSync(path);
+		} catch (error) {
+			if (error.code = "EACESS") {
+				console.log(chalk.red("[!] Error: Cannot Access Directory"), path);
+				return;
+			}
+		}
 		nodes.forEach(node => {
 			// generate url
 			let url = path + '/' + node;
 			// exit if path does not exist or is mac alias
 			if( !LineCounter.exists(url) ) return;
 			// gather node data
-			let isBinary = LineCounter.isBinary(url);
+			let isBinary;
+			try {
+				isBinary = LineCounter.isBinary(url);
+			} catch (error) {
+				if (error.code = "EACESS") {
+					console.log(chalk.red("[!] Error: Cannot Access"), url);
+				}
+				return;
+			}
 			let extension = _path.extname(node);
 			let stats = fs.statSync(url);
 			let isFile = stats.isFile();
@@ -222,7 +247,7 @@ class LineCounter {
 	*/
 	gatherExcludeOptions(ifield, efield, configField) {
 		let finalOptions = [];
-		
+
 		let include;
 		if( typeof this.argv[ifield] == "undefined" )
 			include = [];
@@ -234,7 +259,7 @@ class LineCounter {
 			exclude = [];
 		else
 			exclude = this.argv[efield];
-		
+
 		let stock = config[configField];
 
 		// remove duplicates from cli 'include' and 'exclude' options
