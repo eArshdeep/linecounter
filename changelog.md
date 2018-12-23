@@ -1,5 +1,10 @@
 # CLI-LINE-COUNTER CHANGELOG
 
+## v1.0.7 (released 12/23/2018)
+
+* Bump from version 1.0.6 to 1.0.7
+* Changed `readme.md` usage section
+
 ## v1.0.6 (released 12/23/2018)
 
 * Bump from version 1.0.5 to 1.0.6.
