@@ -1,2 +1,8 @@
-.DS_Store
+# Ignore node_modules
 node_modules
+
+# Ignore Mac DS_Stores
+.DS_Store
+
+# Ignore VSC Settings Store
+.vscode
